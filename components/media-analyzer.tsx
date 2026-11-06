@@ -164,6 +164,9 @@ export function MediaAnalyzer({ initialPlatform = "all" }: MediaAnalyzerProps) {
             <LinkIcon className="w-5 h-5 text-muted-foreground flex-shrink-0 mr-3" />
 
             <input
+              id="media-url-input"
+              name="mediaUrl"
+              aria-label="Media URL to analyze and download"
               type="text"
               value={url}
               onChange={(e) => setUrl(e.target.value)}
@@ -201,6 +204,7 @@ export function MediaAnalyzer({ initialPlatform = "all" }: MediaAnalyzerProps) {
                 onClick={handleClear}
                 className="p-1 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary mr-1 transition-colors"
                 title="Clear input"
+                aria-label="Clear input"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -212,6 +216,7 @@ export function MediaAnalyzer({ initialPlatform = "all" }: MediaAnalyzerProps) {
               onClick={handlePaste}
               className="hidden sm:flex items-center gap-1 text-xs font-medium px-2.5 py-1.5 rounded-lg border border-border bg-secondary hover:bg-secondary/80 text-foreground transition-colors mr-1"
               title="Paste from clipboard"
+              aria-label="Paste URL from clipboard"
             >
               <Clipboard className="w-3.5 h-3.5" />
               Paste
@@ -239,6 +244,7 @@ export function MediaAnalyzer({ initialPlatform = "all" }: MediaAnalyzerProps) {
           <button
             type="submit"
             disabled={status === "analyzing"}
+            aria-label="Analyze media URL"
             className="w-full sm:w-auto px-7 py-3.5 rounded-xl font-semibold text-white bg-primary hover:bg-primary-hover shadow-lg shadow-primary/20 active:scale-[0.98] transition-all flex items-center justify-center gap-2 flex-shrink-0"
           >
             {status === "analyzing" ? (

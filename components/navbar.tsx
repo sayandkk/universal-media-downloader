@@ -2,9 +2,11 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { DownloadCloud, Menu, X, Music } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { DownloadCloud, Menu, X, Music, Layers } from "lucide-react";
 import { YoutubeIcon, InstagramIcon, FacebookIcon } from "./icons";
 import { ThemeToggle } from "./theme-toggle";
+import { SITE_CONFIG } from "@/lib/seo/config";
 
 interface NavbarProps {
   onSelectPlatform?: (platform: "youtube" | "instagram" | "facebook" | "mp3" | "all") => void;
@@ -12,6 +14,7 @@ interface NavbarProps {
 
 export function Navbar({ onSelectPlatform }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+  const pathname = usePathname();
 
   const handleNavClick = (platform?: "youtube" | "instagram" | "facebook" | "mp3" | "all") => {
     if (onSelectPlatform && platform) {
@@ -19,6 +22,38 @@ export function Navbar({ onSelectPlatform }: NavbarProps) {
     }
     setMobileMenuOpen(false);
   };
+
+  const navLinks = [
+    {
+      href: "/youtube-downloader",
+      label: "YouTube",
+      icon: <YoutubeIcon className="w-4 h-4 text-red-500" />,
+      platform: "youtube" as const,
+    },
+    {
+      href: "/instagram-downloader",
+      label: "Instagram",
+      icon: <InstagramIcon className="w-4 h-4 text-pink-500" />,
+      platform: "instagram" as const,
+    },
+    {
+      href: "/facebook-downloader",
+      label: "Facebook",
+      icon: <FacebookIcon className="w-4 h-4 text-blue-600" />,
+      platform: "facebook" as const,
+    },
+    {
+      href: "/video-to-mp3",
+      label: "Video to MP3",
+      icon: <Music className="w-4 h-4 text-purple-500" />,
+      platform: "mp3" as const,
+    },
+    {
+      href: "/supported-platforms",
+      label: "Platforms",
+      icon: <Layers className="w-4 h-4 text-emerald-500" />,
+    },
+  ];
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/80 bg-background/80 backdrop-blur-md transition-colors">
@@ -29,65 +64,51 @@ export function Navbar({ onSelectPlatform }: NavbarProps) {
             href="/"
             onClick={() => handleNavClick("all")}
             className="flex items-center gap-2.5 font-bold text-lg tracking-tight group"
+            title={SITE_CONFIG.name}
           >
             <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-violet-500 flex items-center justify-center text-white shadow-md shadow-blue-500/20 group-hover:scale-105 transition-transform">
               <DownloadCloud className="w-5 h-5" />
             </div>
-            <span className="text-foreground flex items-center gap-1 font-semibold">
-              Media<span className="text-primary font-bold">Flow</span>
-              <span className="text-xs px-1.5 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20 font-medium">
-                v1.0
+            <span className="text-foreground flex items-center gap-1 font-semibold text-sm sm:text-base">
+              Universal<span className="text-primary font-bold">Downloader</span>
+              <span className="hidden sm:inline-block text-[10px] px-1.5 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20 font-medium">
+                Free
               </span>
             </span>
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-1.5">
+          {/* Desktop Semantic Crawlable Navigation */}
+          <nav aria-label="Main Navigation" className="hidden md:flex items-center gap-1">
             <Link
               href="/"
               onClick={() => handleNavClick("all")}
-              className="px-3.5 py-2 text-sm font-medium rounded-lg text-foreground/80 hover:text-foreground hover:bg-secondary transition-colors"
+              className={`px-3 py-1.5 text-xs lg:text-sm font-medium rounded-lg transition-colors ${
+                pathname === "/"
+                  ? "bg-secondary text-foreground font-semibold"
+                  : "text-foreground/80 hover:text-foreground hover:bg-secondary/60"
+              }`}
             >
               Home
             </Link>
-            <button
-              type="button"
-              onClick={() => handleNavClick("youtube")}
-              className="px-3.5 py-2 text-sm font-medium rounded-lg text-foreground/80 hover:text-foreground hover:bg-secondary transition-colors flex items-center gap-1.5"
-            >
-              <YoutubeIcon className="w-4 h-4 text-red-500" />
-              YouTube
-            </button>
-            <button
-              type="button"
-              onClick={() => handleNavClick("instagram")}
-              className="px-3.5 py-2 text-sm font-medium rounded-lg text-foreground/80 hover:text-foreground hover:bg-secondary transition-colors flex items-center gap-1.5"
-            >
-              <InstagramIcon className="w-4 h-4 text-pink-500" />
-              Instagram
-            </button>
-            <button
-              type="button"
-              onClick={() => handleNavClick("facebook")}
-              className="px-3.5 py-2 text-sm font-medium rounded-lg text-foreground/80 hover:text-foreground hover:bg-secondary transition-colors flex items-center gap-1.5"
-            >
-              <FacebookIcon className="w-4 h-4 text-blue-600" />
-              Facebook
-            </button>
-            <button
-              type="button"
-              onClick={() => handleNavClick("mp3")}
-              className="px-3.5 py-2 text-sm font-medium rounded-lg text-foreground/80 hover:text-foreground hover:bg-secondary transition-colors flex items-center gap-1.5"
-            >
-              <Music className="w-4 h-4 text-blue-500" />
-              Video to MP3
-            </button>
-            <a
-              href="#faq"
-              className="px-3.5 py-2 text-sm font-medium rounded-lg text-foreground/80 hover:text-foreground hover:bg-secondary transition-colors"
-            >
-              About & FAQ
-            </a>
+
+            {navLinks.map((item) => {
+              const isActive = pathname === item.href;
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => handleNavClick(item.platform)}
+                  className={`px-3 py-1.5 text-xs lg:text-sm font-medium rounded-lg transition-colors flex items-center gap-1.5 ${
+                    isActive
+                      ? "bg-secondary text-foreground font-semibold"
+                      : "text-foreground/80 hover:text-foreground hover:bg-secondary/60"
+                  }`}
+                >
+                  {item.icon}
+                  <span>{item.label}</span>
+                </Link>
+              );
+            })}
           </nav>
 
           {/* Right actions: Theme toggle & Mobile menu button */}
@@ -99,6 +120,7 @@ export function Navbar({ onSelectPlatform }: NavbarProps) {
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="md:hidden w-9 h-9 rounded-lg border border-border bg-card flex items-center justify-center text-foreground hover:bg-secondary transition-colors"
               aria-label="Toggle mobile menu"
+              aria-expanded={mobileMenuOpen}
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -108,53 +130,26 @@ export function Navbar({ onSelectPlatform }: NavbarProps) {
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-b border-border bg-card/95 backdrop-blur-lg px-4 pt-2 pb-5 space-y-2 animate-in fade-in slide-in-from-top-2 duration-200">
+        <div className="md:hidden border-b border-border bg-card/95 backdrop-blur-lg px-4 pt-2 pb-5 space-y-1 animate-in fade-in slide-in-from-top-2 duration-200">
           <Link
             href="/"
             onClick={() => handleNavClick("all")}
-            className="block px-3 py-2.5 rounded-lg text-base font-medium text-foreground hover:bg-secondary"
+            className="block px-3 py-2.5 rounded-lg text-sm font-medium text-foreground hover:bg-secondary"
           >
             Home
           </Link>
-          <button
-            type="button"
-            onClick={() => handleNavClick("youtube")}
-            className="w-full text-left flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-base font-medium text-foreground hover:bg-secondary"
-          >
-            <YoutubeIcon className="w-5 h-5 text-red-500" />
-            YouTube Downloader
-          </button>
-          <button
-            type="button"
-            onClick={() => handleNavClick("instagram")}
-            className="w-full text-left flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-base font-medium text-foreground hover:bg-secondary"
-          >
-            <InstagramIcon className="w-5 h-5 text-pink-500" />
-            Instagram Downloader
-          </button>
-          <button
-            type="button"
-            onClick={() => handleNavClick("facebook")}
-            className="w-full text-left flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-base font-medium text-foreground hover:bg-secondary"
-          >
-            <FacebookIcon className="w-5 h-5 text-blue-600" />
-            Facebook Downloader
-          </button>
-          <button
-            type="button"
-            onClick={() => handleNavClick("mp3")}
-            className="w-full text-left flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-base font-medium text-foreground hover:bg-secondary"
-          >
-            <Music className="w-5 h-5 text-blue-500" />
-            Video to MP3 Converter
-          </button>
-          <a
-            href="#faq"
-            onClick={() => setMobileMenuOpen(false)}
-            className="block px-3 py-2.5 rounded-lg text-base font-medium text-foreground hover:bg-secondary"
-          >
-            About & FAQ
-          </a>
+
+          {navLinks.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              onClick={() => handleNavClick(item.platform)}
+              className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-foreground hover:bg-secondary"
+            >
+              {item.icon}
+              <span>{item.label} Downloader</span>
+            </Link>
+          ))}
         </div>
       )}
     </header>

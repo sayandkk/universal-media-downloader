@@ -2,35 +2,11 @@
 
 import * as React from "react";
 import { ChevronDown } from "lucide-react";
+import { HOMEPAGE_FAQS, FaqItem } from "@/lib/seo/faqs";
 
-const faqs = [
-  {
-    q: "Why are the available resolutions different for each video?",
-    a: "MediaFlow never displays hardcoded or fake resolutions. We dynamically inspect the video source and only show resolutions that the original creator uploaded and that are genuinely available from the streaming network.",
-  },
-  {
-    q: "What is the difference between 'Video + Audio' and 'Video Only'?",
-    a: "Streaming platforms store standard resolutions (like 360p and 720p) with video and audio multiplexed together. Higher resolutions (like 1080p, 1440p, and 4K) are often stored as standalone adaptive video tracks. MediaFlow categorizes them transparently so you know exactly what is included in your file.",
-  },
-  {
-    q: "How does the MP3 audio extraction work?",
-    a: "When you select MP3 audio, our backend pipes the highest-bitrate available audio stream from the media source directly through an integrated FFmpeg audio encoder, delivering a clean 192 kbps MP3 file straight to your download folder.",
-  },
-  {
-    q: "Why can't I download private videos or Instagram Stories?",
-    a: "In compliance with platform security rules and user privacy controls, MediaFlow only processes publicly accessible media. Stories and private accounts require personal login credentials, session cookies, and explicit follower permissions, which we strictly do not bypass.",
-  },
-  {
-    q: "Does MediaFlow store my downloaded files or browsing history?",
-    a: "No. MediaFlow is built on a 100% database-free, stateless architecture. Media is streamed directly through chunked HTTP transfer to your browser without long-term server disk storage or persistent tracking.",
-  },
-  {
-    q: "Is downloading videos legal?",
-    a: "You should only download content that you own, have express permission from the copyright owner to download, or that is distributed under Creative Commons or open public licenses. Please review our Terms of Service for complete usage guidelines.",
-  },
-];
+export { HOMEPAGE_FAQS };
 
-export function FaqSection() {
+export function FaqSection({ items = HOMEPAGE_FAQS }: { items?: FaqItem[] }) {
   const [openIndex, setOpenIndex] = React.useState<number | null>(0);
 
   return (
@@ -49,7 +25,7 @@ export function FaqSection() {
         </div>
 
         <div className="space-y-3">
-          {faqs.map((item, idx) => {
+          {items.map((item, idx) => {
             const isOpen = openIndex === idx;
             return (
               <div
@@ -82,4 +58,3 @@ export function FaqSection() {
     </section>
   );
 }
-
