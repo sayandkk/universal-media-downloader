@@ -5,36 +5,36 @@ const steps = [
   {
     step: "01",
     title: "Paste Media Link",
-    description: "Copy any supported public URL from YouTube (Videos or Shorts) or Instagram (Reels or Posts) and paste it into the analyzer.",
+    description: "Copy any public video or audio URL from YouTube (Videos or Shorts), Instagram (Reels or Posts), or Facebook (Watch or Reels) and paste it into the search box.",
     icon: Link2,
   },
   {
     step: "02",
     title: "Inspect & Choose Quality",
-    description: "Our server analyzes genuine stream formats available from the source, letting you select between HD video or MP3 audio.",
+    description: "Our engine analyzes genuine stream formats available from the source platform, letting you choose between crisp HD video (up to 4K) or pure MP3 audio.",
     icon: SlidersHorizontal,
   },
   {
     step: "03",
     title: "Instant Stream Download",
-    description: "Click download to stream the media directly to your device via chunked HTTP transfer with instant cleanup.",
+    description: "Click download to stream the media file directly to your smartphone, tablet, or PC with zero waiting, no ads, and automatic cleanup.",
     icon: Download,
   },
 ];
 
 export function HowItWorks() {
   return (
-    <section className="py-16 sm:py-24 border-t border-border/80 bg-secondary/30">
+    <section id="how-it-works" className="py-16 sm:py-24 border-t border-border/80 bg-secondary/30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto space-y-3 mb-12 sm:mb-16">
           <span className="text-xs uppercase font-bold tracking-wider text-primary px-3 py-1 rounded-full bg-primary/10 border border-primary/20">
             Simple 3-Step Process
           </span>
           <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
-            How MediaFlow Works
+            How Universal Media Downloader Works
           </h2>
           <p className="text-sm sm:text-base text-muted-foreground">
-            Fast, intuitive, and designed to get your content downloaded in seconds.
+            Fast, intuitive, and designed to download authorized media in seconds without registration.
           </p>
         </div>
 
