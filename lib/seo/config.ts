@@ -55,3 +55,4 @@ export function getCanonicalUrl(path: string = ""): string {
   const normalized = cleanPath === "/" ? "" : cleanPath;
   return `${SITE_CONFIG.productionUrl}${normalized}`;
 }
+

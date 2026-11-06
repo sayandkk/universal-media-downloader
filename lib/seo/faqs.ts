@@ -105,3 +105,4 @@ export const MP3_FAQS: FaqItem[] = [
     a: "Yes. Standard ISO MPEG Audio Layer 3 (MP3) at 44.1 kHz is universal and plays natively on iPhone, Android, Windows, Mac, Linux, car audio systems, and smart speakers without needing extra apps.",
   },
 ];
+

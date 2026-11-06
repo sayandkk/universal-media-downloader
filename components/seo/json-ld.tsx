@@ -105,3 +105,4 @@ export function BreadcrumbsJsonLd({ steps }: { steps: BreadcrumbStep[] }) {
 
   return <JsonLd data={schema} />;
 }
+

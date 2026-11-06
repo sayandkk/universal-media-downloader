@@ -49,3 +49,4 @@ test("SEO — Sitemap XML Generation", () => {
     assert(entry.lastModified, "Each entry must include a valid lastModified timestamp");
   }
 });
+
